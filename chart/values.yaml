@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: olagunju/simple-node-app
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 resources:
   limits:
