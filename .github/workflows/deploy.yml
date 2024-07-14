@@ -49,5 +49,5 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
-        helm upgrade --install simple-nodejs3 ./chart --namespace default --set image.repository=olagunju/chart --set image.tag=latest
+        helm upgrade --install simple-nodejs4 ./chart --namespace default --set image.repository=olagunju/simple-node-app --set image.tag=latest
         kubectl rollout status deployment/chart
