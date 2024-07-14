@@ -40,6 +40,13 @@ jobs:
         helm package ./chart --destination ./
         aws s3 cp ./chart-0.1.0.tgz s3://helm-charts-bucket1/
 
+    - name: Setup Kubectl and Update kubeconfig
+      run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
+          aws eks update-kubeconfig --region us-west-2 --name kredi-cluster
+
     - name: Deploy to Kubernetes
       run: |
         helm upgrade --install simple-nodejs2 ./chart --namespace default --set image.repository=olagunju/chart --set image.tag=latest
