@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: olagunju/simple-node-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: "100m"
+    memory: "128Mi"
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
