@@ -38,7 +38,7 @@ jobs:
     - name: Upload Helm chart to S3
       run: |
         helm package ./chart --destination ./
-        aws s3 cp ./chart-0.1.0.tgz s3://helm-chart-bucket1/
+        aws s3 cp ./chart-0.1.0.tgz s3://helm-charts-bucket1/
 
     - name: Deploy to Kubernetes
       run: |
