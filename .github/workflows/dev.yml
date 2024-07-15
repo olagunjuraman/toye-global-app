@@ -44,7 +44,8 @@ jobs:
       - name: Package Helm chart
         run: helm package ./chart --destination ./
       - name: Upload Helm chart to S3
-        run: aws s3 cp ./simple-nodejs-dev-${{ github.sha }}.tgz s3://${{ env.HELM_CHART_BUCKET }}/dev/
+        run: aws s3 cp ./chart -${{ github.sha }}.tgz s3://${{ env.HELM_CHART_BUCKET }}/1
+
 
   deploy:
     needs: build-and-push
