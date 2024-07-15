@@ -1,10 +1,9 @@
-
-name: Dev Build and Deploy
+name: Prod Build and Deploy
 
 on:
   push:
     branches:
-      - dev
+      - production
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -17,8 +16,6 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    # outputs:
-    #   image_tag: ${{ steps.set_tag.outputs.tag }} 
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
@@ -45,7 +42,7 @@ jobs:
       - name: Package Helm chart
         run: helm package ./chart --destination ./
       - name: Upload Helm chart to S3
-        run: aws s3 cp ./chart-0.1.0.tgz s3://${{ env.HELM_CHART_BUCKET }}/dev/
+        run: aws s3 cp ./chart-0.1.0.tgz s3://${{ env.HELM_CHART_BUCKET }}/production/
 
   deploy:
     needs: build-and-push
@@ -66,6 +63,6 @@ jobs:
           aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name kredi-cluster
       - name: Deploy to Kubernetes
         run: |
-          helm upgrade --install simple-node-app ./chart --namespace dev \
-            --set image.repository=${{ env.IMAGE_REPO }},image.tag=${{github.sha}},environment=dev,replicaCount=2
-          kubectl rollout status deployment/simple-node-app-dev --namespace dev
+          helm upgrade --install simple-node-app ./chart --namespace production \
+            --set image.repository=${{ env.IMAGE_REPO }},image.tag=${{github.sha}},environment=production,replicaCount=3
+          kubectl rollout status deployment/simple-node-app-production --namespace production
