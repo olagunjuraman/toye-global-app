@@ -111,7 +111,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_REPO }}:${{ github.sha }}
       - name: Set output tag
-        run: echo "::set-output name=tag::dev-${{ github.sha }}"
+        run: echo "::set-output name=tag::-${{ github.sha }}"
         id: set_tag
       - name: Configure AWS credentials for S3 access
         uses: aws-actions/configure-aws-credentials@v1
