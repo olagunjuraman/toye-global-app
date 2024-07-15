@@ -92,7 +92,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     outputs:
-      image_tag: ${{ steps.tag.outputs.tag }}  # Output the tag from the build step
+      image_tag: ${{ steps.set_tag.outputs.tag }} 
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
