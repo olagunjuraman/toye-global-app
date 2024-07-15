@@ -144,5 +144,5 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           helm upgrade --install simple-node-app ./chart --namespace dev \
-            --set image.repository=${{ env.IMAGE_REPO }},image.tag=${{github.sha}}
+            --set image.repository=${{ env.IMAGE_REPO }},image.tag=${{github.sha}},environment=dev,replicaCount=2
           kubectl rollout status deployment/simple-node-app-dev --namespace dev
