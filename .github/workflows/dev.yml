@@ -34,7 +34,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ env.IMAGE_REPO }}:dev-${{ github.sha }}
+          tags: ${{ env.IMAGE_REPO }}:-${{ github.sha }}
       - name: Configure AWS credentials for S3 access
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -66,6 +66,6 @@ jobs:
           aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name kredi-cluster
       - name: Deploy to Kubernetes
         run: |
-          helm upgrade --install simple-nodejs4 ./chart --namespace dev \
-            --set image.repository=${{ env.IMAGE_REPO }},image.tag=${{ needs.build-and-push.outputs.image_tag }}
-          kubectl rollout status deployment/dev-deployment
+          helm upgrade --install simple-node-app ./chart --namespace dev \
+            --set image.repository=${{ env.IMAGE_REPO }},image.tag=${{ needs.build-and-push.outputs.image_tag }},environment=dev
+          kubectl rollout status deployment/simple-node-app-dev --namespace dev

@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-simple-node-app  # Directly using Release name with a suffix
+  name: {{ .Release.Name }}-{{ .Values.environment }}
 spec:
-  replicas: {{ .Values.replicaCount }}  # Directly from values.yaml
+  replicas: {{ .Values.replicaCount }}  
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-simple-node-app  # Direct labeling without helper
+      app: {{ .Release.Name }}-{{ .Values.environment }} 
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-simple-node-app  # Same label as selector
+        app: {{ .Release.Name }}-{{ .Values.environment }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}  # Using the chart name for container name
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"  # Image from values.yaml
-          imagePullPolicy: {{ .Values.image.pullPolicy }}  # Pull policy from values.yaml
+        - name: {{ .Chart.Name }}  
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
+          imagePullPolicy: {{ .Values.image.pullPolicy }} 
           ports:
             - name: http
-              containerPort: 3000  # Assuming 3000 is the correct port for your app
+              containerPort: 3000
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}  # Resources block from values.yaml

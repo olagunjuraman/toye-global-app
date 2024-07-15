@@ -1,5 +1,7 @@
 replicaCount: 1
 
+environment: dev
+
 image:
   repository: olagunju/simple-node-app
   tag: latest
