@@ -37,6 +37,24 @@ resource "aws_subnet" "toyeglobal_subnet3" {
   }
 }
 
+resource "aws_subnet" "toyeglobal_subnet4" {
+  vpc_id            = aws_vpc.toyeglobal_vpc.id
+  cidr_block        = "10.0.4.0/24"
+  availability_zone = "eu-west-2c"
+  tags = {
+    Name = "toyeglobal-subnet4"
+  }
+}
+
+resource "aws_subnet" "toyeglobal_subnet5" {
+  vpc_id            = aws_vpc.toyeglobal_vpc.id
+  cidr_block        = "10.0.5.0/24"
+  availability_zone = "eu-west-2c"
+  tags = {
+    Name = "toyeglobal-subnet5"
+  }
+}
+
 # Internet Gateway
 resource "aws_internet_gateway" "toyeglobal_igw" {
   vpc_id = aws_vpc.toyeglobal_vpc.id
@@ -74,10 +92,20 @@ resource "aws_route_table_association" "toyeglobal_subnet2_association" {
 
 resource "aws_route_table_association" "toyeglobal_subnet3_association" {
   subnet_id      = aws_subnet.toyeglobal_subnet3.id
+  route_table_id = aws_route_table.toyeglobal_private_rt.id
+}
+
+resource "aws_route_table_association" "toyeglobal_subnet4_association" {
+  subnet_id      = aws_subnet.toyeglobal_subnet4.id
+  route_table_id = aws_route_table.toyeglobal_private_rt.id
+}
+
+resource "aws_route_table_association" "toyeglobal_subnet5_association" {
+  subnet_id      = aws_subnet.toyeglobal_subnet5.id
   route_table_id = aws_route_table.toyeglobal_public_rt.id
 }
 
-# Private Route Table
+# Private Route Table 
 resource "aws_route_table" "toyeglobal_private_rt" {
   vpc_id = aws_vpc.toyeglobal_vpc.id
 
